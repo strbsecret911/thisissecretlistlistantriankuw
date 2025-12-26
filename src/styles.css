@@ -1,0 +1,59 @@
+:root {
+  --bg: #C9DBF0;
+  --navy: #0B1F3B;
+  --card: #ffffff;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: Arial, sans-serif;
+  color: var(--navy);
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: white;
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.pending { background: #ffe08a; }
+.proses  { background: #90cdf4; }
+.done    { background: #9ae6b4; }
