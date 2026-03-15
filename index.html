@@ -1,12 +1,522 @@
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TOPUPGRAM • List Order</title>
-    <script type="module" src="/src/main.jsx"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Fee Top Up</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fdf2f4;
+      --surface: #ffffff;
+      --text: #4a2530;
+      --accent: #e8879a;
+      --accent-soft: #f7d0d8;
+      --border: #f2c0cb;
+      --muted: #9e6672;
+      --input-bg: #fff7f8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app-wrapper {
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(145deg, #fdf2f4 0%, #fce7ec 50%, #fdf2f4 100%);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .main-card {
+      width: 100%;
+      max-width: 880px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 8px 40px rgba(232, 135, 154, 0.12), 0 2px 8px rgba(232, 135, 154, 0.08);
+    }
+
+    .app-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 6px 0;
+      letter-spacing: -0.3px;
+    }
+
+    .app-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 28px 0;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .section-card {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title .num {
+      width: 26px;
+      height: 26px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: white;
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 500;
+      outline: none;
+      margin-bottom: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(232, 135, 154, 0.18);
+    }
+
+    .field-input::placeholder {
+      color: #d0a0aa;
+      font-weight: 400;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(232, 135, 154, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: #df7088;
+      box-shadow: 0 4px 14px rgba(232, 135, 154, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-secondary {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-secondary:hover {
+      background: #f2c0cc;
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.97);
+    }
+
+    .result-box {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 4px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid #fce7ec;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-row.highlight {
+      background: var(--accent-soft);
+      margin: 0 -16px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border-bottom: none;
+    }
+
+    .result-row.highlight .result-value {
+      color: var(--accent);
+      font-size: 17px;
+    }
+
+    .result-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .result-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      padding: 14px 18px;
+      background: var(--accent-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footer-note strong {
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .main-card {
+        padding: 20px;
+      }
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .app-title {
+        font-size: 22px;
+      }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper">
+   <div class="main-card"><!-- Header -->
+    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+     <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #e8879a 0%, #df7088 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 800; box-shadow: 0 4px 12px rgba(232, 135, 154, 0.3); flex-shrink: 0;">
+      ⚡
+     </div>
+     <div>
+      <div style="font-size: 18px; font-weight: 800; color: var(--text); margin: 0; letter-spacing: -0.3px;">
+       TOPUPGRAM
+      </div>
+      <div style="font-size: 12px; color: var(--muted); margin: 2px 0 0 0; font-weight: 500;">
+       Store topup robux, heartopia, genshin impact, honkai star rail, dan masih banyak lagi.
+      </div>
+     </div>
+    </div>
+    <div class="badge">
+     💸 Fee Calculator
+    </div>
+    <h1 class="app-title" id="app-title">Kalkulator Fee Top Up</h1>
+    <p class="app-desc" id="app-desc">Hitung total akhir dari fee persen, atau hitung balik fee dari harga awal &amp; total akhir.</p>
+    <div class="grid-2"><!-- Card 1: Hitung Total Akhir -->
+     <div class="section-card">
+      <h2 class="section-title"><span class="num">1</span> Hitung Total Akhir</h2><label class="field-label" for="baseAmount">Harga Awal</label> <input class="field-input" type="number" id="baseAmount" placeholder="Contoh: 61420"> <label class="field-label" for="feePercent">Fee (%)</label> <input class="field-input" type="number" id="feePercent" step="0.0001" placeholder="Contoh: 3" value="3">
+      <div class="btn-row"><button class="btn-primary" onclick="calculateFinal()">Hitung Total</button> <button class="btn-secondary" onclick="resetCalc1()">Reset</button>
+      </div>
+      <div class="result-box">
+       <div class="result-row"><span class="result-label">Biaya admin</span> <span class="result-value" id="feeAmount">—</span>
+       </div>
+       <div class="result-row"><span class="result-label">Fee setelah dibulatkan</span> <span class="result-value" id="feeRounded">—</span>
+       </div>
+       <div class="result-row highlight"><span class="result-label" style="color: #c05a6e; font-weight:700;">Total Akhir</span> <span class="result-value" id="totalFinal">—</span>
+       </div>
+      </div>
+     </div><!-- Card 2: Hitung Balik Fee -->
+     <div class="section-card">
+      <h2 class="section-title"><span class="num">2</span> Hitung Balik Fee</h2><label class="field-label" for="baseAmount2">Harga Awal</label> <input class="field-input" type="number" id="baseAmount2" placeholder="Contoh: 61420"> <label class="field-label" for="finalAmount">Total Akhir (yang dibayarkan)</label> <input class="field-input" type="number" id="finalAmount" placeholder="Contoh: 62900">
+      <div class="btn-row"><button class="btn-primary" onclick="calculateReverse()">Hitung Balik</button> <button class="btn-secondary" onclick="resetCalc2()">Reset</button>
+      </div>
+      <div class="result-box">
+       <div class="result-row"><span class="result-label">Selisih nominal</span> <span class="result-value" id="diff">—</span>
+       </div>
+       <div class="result-row"><span class="result-label">Fee efektif (%)</span> <span class="result-value" id="feeEffective">—</span>
+       </div>
+       <div class="result-row highlight"><span class="result-label" style="color: #c05a6e; font-weight:700;">Biaya Admin Aktual</span> <span class="result-value" id="actualFee">—</span>
+       </div>
+      </div>
+     </div>
+    </div><!-- Footer note -->
+    <div class="footer-note"><strong>💡 Catatan:</strong> Biaya admin dibulatkan ke atas ke kelipatan <strong>Rp 100</strong> terdekat sebelum ditambahkan ke harga awal. Fee default <strong>3%</strong> berlaku untuk semua transaksi top up.
+    </div>
+   </div>
+  </div>
+  <script>
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function fmt(val) {
+    if (val === null || val === undefined || isNaN(val)) return '—';
+    return 'Rp ' + Number(val).toLocaleString('id-ID');
+  }
+
+  function fmtPct(val) {
+    if (val === null || val === undefined || isNaN(val)) return '—';
+    return val.toFixed(4) + '%';
+  }
+
+  function ceilTo100(val) {
+    return Math.ceil(val / 100) * 100;
+  }
+
+  // ── Kalkulator 1: Hitung Total Akhir ────────────────────────────────────
+  function calculateFinal() {
+    const base = parseFloat(document.getElementById('baseAmount').value);
+    const fee = parseFloat(document.getElementById('feePercent').value);
+
+    if (isNaN(base) || base <= 0) {
+      showInlineError('baseAmount', 'Masukkan harga awal yang valid.');
+      return;
+    }
+    if (isNaN(fee) || fee < 0) {
+      showInlineError('feePercent', 'Masukkan persentase fee yang valid.');
+      return;
+    }
+
+    const feeRaw = base * (fee / 100);
+    const feeRoundedVal = ceilTo100(feeRaw);
+    const total = base + feeRoundedVal;
+
+    document.getElementById('feeAmount').textContent = fmt(feeRaw);
+    document.getElementById('feeRounded').textContent = fmt(feeRoundedVal);
+    document.getElementById('totalFinal').textContent = fmt(total);
+  }
+
+  function resetCalc1() {
+    document.getElementById('baseAmount').value = '';
+    document.getElementById('feePercent').value = '3';
+    document.getElementById('feeAmount').textContent = '—';
+    document.getElementById('feeRounded').textContent = '—';
+    document.getElementById('totalFinal').textContent = '—';
+  }
+
+  // ── Kalkulator 2: Hitung Balik Fee ──────────────────────────────────────
+  function calculateReverse() {
+    const base = parseFloat(document.getElementById('baseAmount2').value);
+    const final = parseFloat(document.getElementById('finalAmount').value);
+
+    if (isNaN(base) || base <= 0) {
+      showInlineError('baseAmount2', 'Masukkan harga awal yang valid.');
+      return;
+    }
+    if (isNaN(final) || final <= 0) {
+      showInlineError('finalAmount', 'Masukkan total akhir yang valid.');
+      return;
+    }
+    if (final <= base) {
+      showInlineError('finalAmount', 'Total akhir harus lebih besar dari harga awal.');
+      return;
+    }
+
+    const diffVal = final - base;
+    const effFee = (diffVal / base) * 100;
+
+    document.getElementById('diff').textContent = fmt(diffVal);
+    document.getElementById('feeEffective').textContent = fmtPct(effFee);
+    document.getElementById('actualFee').textContent = fmt(diffVal);
+  }
+
+  function resetCalc2() {
+    document.getElementById('baseAmount2').value = '';
+    document.getElementById('finalAmount').value = '';
+    document.getElementById('diff').textContent = '—';
+    document.getElementById('feeEffective').textContent = '—';
+    document.getElementById('actualFee').textContent = '—';
+  }
+
+  // ── Inline error helper ───────────────────────────────────────────────────
+  function showInlineError(inputId, message) {
+    const input = document.getElementById(inputId);
+    const existing = input.nextElementSibling;
+    if (existing && existing.classList.contains('inline-err')) existing.remove();
+    const err = document.createElement('div');
+    err.className = 'inline-err';
+    err.textContent = '⚠️ ' + message;
+    err.style.cssText = 'font-size:12px;color:#c05a6e;margin-top:-10px;margin-bottom:10px;font-weight:600;';
+    input.insertAdjacentElement('afterend', err);
+    input.style.borderColor = '#e8879a';
+    input.focus();
+    setTimeout(() => {
+      err.remove();
+      input.style.borderColor = '';
+    }, 3000);
+  }
+
+  // ── Auto-calculate on input ──────────────────────────────────────────────
+  ['baseAmount', 'feePercent'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calculateFinal);
+  });
+  ['baseAmount2', 'finalAmount'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calculateReverse);
+  });
+
+  // ── Elements SDK ─────────────────────────────────────────────────────────
+  const defaultConfig = {
+    app_title: 'Kalkulator Fee Top Up',
+    app_desc: 'Hitung total akhir dari fee persen, atau hitung balik fee dari harga awal & total akhir.',
+    background_color: '#fdf2f4',
+    surface_color: '#ffffff',
+    text_color: '#4a2530',
+    accent_color: '#e8879a',
+    font_family: 'Plus Jakarta Sans',
+    font_size: 15
+  };
+
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      // Text
+      document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+      document.getElementById('app-desc').textContent = config.app_desc || defaultConfig.app_desc;
+
+      // Colors
+      const bg = config.background_color || defaultConfig.background_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+      const text = config.text_color || defaultConfig.text_color;
+      const accent = config.accent_color || defaultConfig.accent_color;
+
+      document.documentElement.style.setProperty('--bg', bg);
+      document.documentElement.style.setProperty('--surface', surface);
+      document.documentElement.style.setProperty('--text', text);
+      document.documentElement.style.setProperty('--accent', accent);
+
+      // Accent soft derived
+      document.documentElement.style.setProperty('--accent-soft', accent + '28');
+
+      // Font
+      const font = config.font_family || defaultConfig.font_family;
+      const size = config.font_size || defaultConfig.font_size;
+      document.body.style.fontFamily = `'${font}', 'Plus Jakarta Sans', sans-serif`;
+
+      // Scale
+      document.querySelector('.app-title').style.fontSize = `${size * 1.7}px`;
+      document.querySelector('.app-desc').style.fontSize = `${size * 0.93}px`;
+      document.querySelectorAll('.field-label').forEach(el => el.style.fontSize = `${size * 0.87}px`);
+      document.querySelectorAll('.field-input').forEach(el => el.style.fontSize = `${size}px`);
+      document.querySelectorAll('.result-label').forEach(el => el.style.fontSize = `${size * 0.87}px`);
+      document.querySelectorAll('.result-value').forEach(el => el.style.fontSize = `${size * 0.93}px`);
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        {
+          get: () => config.background_color || defaultConfig.background_color,
+          set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+        },
+        {
+          get: () => config.surface_color || defaultConfig.surface_color,
+          set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+        },
+        {
+          get: () => config.text_color || defaultConfig.text_color,
+          set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+        },
+        {
+          get: () => config.accent_color || defaultConfig.accent_color,
+          set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+        }
+      ],
+      borderables: [],
+      fontEditable: {
+        get: () => config.font_family || defaultConfig.font_family,
+        set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+      },
+      fontSizeable: {
+        get: () => config.font_size || defaultConfig.font_size,
+        set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['app_title', config.app_title || defaultConfig.app_title],
+      ['app_desc', config.app_desc || defaultConfig.app_desc]
+    ])
+  });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc9cf31337a5e29',t:'MTc3MzU1OTc5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
